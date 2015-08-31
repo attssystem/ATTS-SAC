@@ -1,0 +1,2 @@
+At the start of the game, the ID is "Root" and the password is "Play". Be careful, there is a big difference between a capital letter and another one so please write exactly the same thing that's in the manual.
+Thanks, Hugues.
