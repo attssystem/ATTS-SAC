@@ -1,6 +1,6 @@
 
 MANUAL :
-You are a part of the Security Team of ATTS Inc (subsidiary of Alphabet Inc), 
+You are a part of the Security Team of ATTS Inc, 
 you have to protect the servers of hacking by the opponent company Verizon
 but you can't switch them all off. The servers have to run even during an
 attack to preserve the data transfer of the company because ATTS Inc works 

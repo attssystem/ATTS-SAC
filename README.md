@@ -4,8 +4,7 @@ The ID is "root" and the password is "atts".
 
 Manual (also available in the program) :
 
-You are a part of the Security Team of ATTS Inc (subsidiary of Alphabet Inc), 
-you have to protect the servers of hacking by the opponent company Verizon but you can't switch them all off. The servers have to run even during an attack to preserve the data transfer of the company because ATTS Inc works in telecommunications.
+You are a part of the Security Team of ATTS Inc, you have to protect the servers of hacking by the opponent company Verizon but you can't switch them all off. The servers have to run even during an attack to preserve the data transfer of the company because ATTS Inc works in telecommunications.
 
 The ATTS' Servers Administration Center (SAC) is a turn based game. Your goal is to destroy all of the Verizon's servers and make ATTS Inc the biggest telecommunications company in THE WORLD!
 You have 20 servers (as much as your opponent). This servers are like your lives. You can use 3 commands :
