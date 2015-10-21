@@ -16,8 +16,7 @@ computer and kill one of their servers.
 OVERCPU : You allocate one of your servers to hack the Verizon's private 
 network and you try to overheat many of their servers (max 4) but you risk
 to lose your server.
-FIX : You fix one of your servers.
-Don't forget, if you write a wrong command you lose your turn.
+FIX : You fix one of your servers (even if you have all of your servers, this command add a server).
 
 When you red everything you want, type RESTART to play.
 To quit the program type EXIT.
