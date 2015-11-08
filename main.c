@@ -1,13 +1,72 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #define TAILLE_MAX 1000
+#ifdef WIN32
+#include <windows.h>
+#elif _POSIX_C_SOURCE >= 199309L
+#include <time.h>
+#else
+#include <unistd.h>
+#endif
+
+void sleep_ms(int milliseconds) // cross-platform sleep function
+{
+#ifdef WIN32
+    Sleep(milliseconds);
+#elif _POSIX_C_SOURCE >= 199309L
+    struct timespec ts;
+    ts.tv_sec = milliseconds / 1000;
+    ts.tv_nsec = (milliseconds % 1000) * 1000000;
+    nanosleep(&ts, NULL);
+#else
+    usleep(milliseconds * 1000);
+#endif
+}
+
+
+void sleepFor(int seconds){
+    fflush(stdout);
+    sleep_ms(seconds);
+}
+
+void showLoad(){
+    printf("|");
+    sleepFor(100);
+    printf("\b");
+    fflush(stdout);
+    printf("/");
+    sleepFor(100);
+    printf("\b");
+    fflush(stdout);
+    printf("-");
+    sleepFor(100);
+    printf("\b");
+    fflush(stdout);
+    printf("|");
+    sleepFor(100);
+    printf("\b");
+    fflush(stdout);
+    printf("/");
+    sleepFor(100);
+    printf("\b");
+    fflush(stdout);
+    printf("-");
+    sleepFor(100);
+    printf("\b");
+    fflush(stdout);
+    printf("|");
+    sleepFor(100);
+    printf("\b");
+    fflush(stdout);
+}
 
 int main()
 {
     char loading = 0;
     char wrongCommand = 0;
     char win = 0;
-    char inGame = 0;
+    bool inGame = true;
     char AttsServers = 20;
     char VerizonServers = 20;
     int VerizonAttack = 0;
@@ -35,42 +94,22 @@ int main()
     FILE* ranking = NULL;
 
     printf("Connection to ATTS' servers");
-    usleep(1000);
+    sleepFor(1000);
 
     loading = 0;
 
     while (loading < 10)
     {
-        printf("|");
-        usleep(100);
-        printf("\b");
-        printf("/");
-        usleep(100);
-        printf("\b");
-        printf("-");
-        usleep(100);
-        printf("\b");
-        printf("|");
-        usleep(100);
-        printf("\b");
-        printf("/");
-        usleep(100);
-        printf("\b");
-        printf("-");
-        usleep(100);
-        printf("\b");
-        printf("|");
-        usleep(100);
-        printf("\b");
+        showLoad();
         loading ++;
     }
 
     printf("\nConnection established\n");
-    usleep(500);
+    sleepFor(500);
     printf("Please enter your ID\n");
     printf("ID : ");
     scanf("%s", ID);
-    usleep(500);
+    sleepFor(500);
 
     if (strcmp(ID, IDAdmin) == 0)
     {
@@ -80,7 +119,7 @@ int main()
     else
     {
         printf("\nWrong ID. You will be rejected by the server in 5 seconds");
-        usleep(5000);
+        sleepFor(5000);
         return 0;
     }
 
@@ -91,27 +130,7 @@ int main()
 
     while (loading < 5)
     {
-        printf("|");
-        usleep(100);
-        printf("\b");
-        printf("/");
-        usleep(100);
-        printf("\b");
-        printf("-");
-        usleep(100);
-        printf("\b");
-        printf("|");
-        usleep(100);
-        printf("\b");
-        printf("/");
-        usleep(100);
-        printf("\b");
-        printf("-");
-        usleep(100);
-        printf("\b");
-        printf("|");
-        usleep(100);
-        printf("\b");
+        showLoad();
         loading ++;
     }
 
@@ -125,27 +144,7 @@ int main()
 
         while (loading < 5)
         {
-            printf("|");
-            usleep(100);
-            printf("\b");
-            printf("/");
-            usleep(100);
-            printf("\b");
-            printf("-");
-            usleep(100);
-            printf("\b");
-            printf("|");
-            usleep(100);
-            printf("\b");
-            printf("/");
-            usleep(100);
-            printf("\b");
-            printf("-");
-            usleep(100);
-            printf("\b");
-            printf("|");
-            usleep(100);
-            printf("\b");
+            showLoad();
             loading ++;
         }
 
@@ -155,7 +154,7 @@ int main()
     else
     {
         printf("Wrong password. You will be rejected by the server in 5 seconds");
-        usleep(5000);
+        sleepFor(5000);
         return 0;
     }
 
@@ -170,27 +169,7 @@ int main()
 
         while (loading < 5)
         {
-            printf("|");
-            usleep(100);
-            printf("\b");
-            printf("/");
-            usleep(100);
-            printf("\b");
-            printf("-");
-            usleep(100);
-            printf("\b");
-            printf("|");
-            usleep(100);
-            printf("\b");
-            printf("/");
-            usleep(100);
-            printf("\b");
-            printf("-");
-            usleep(100);
-            printf("\b");
-            printf("|");
-            usleep(100);
-            printf("\b");
+            showLoad();
             loading ++;
         }
 
@@ -205,7 +184,7 @@ int main()
                 while (fgets(lineManual, TAILLE_MAX, manual) != NULL)
                 {
                     printf("%s", lineManual);
-                    usleep(500);
+                    sleepFor(500);
                 }
 
                 printf("\ncommand :");
@@ -219,7 +198,7 @@ int main()
                 else if (strcmp(givenCommand, Exit) == 0)
                 {
                     printf("The program will stop in few seconds");
-                    usleep(5000);
+                    sleepFor(5000);
                     return 0;
                 }
 
@@ -232,7 +211,7 @@ int main()
             else
             {
                 printf("Unknown error detected during the manual opening, the program will restart automatically in few seconds\n");
-                usleep(5000);
+                sleepFor(5000);
             }
 
         }
@@ -246,10 +225,10 @@ int main()
                 while (fgets(lineManual, TAILLE_MAX, ranking) != NULL)
                 {
                     printf("%s", lineManual);
-                    usleep(500);
+                    sleepFor(500);
                 }
 
-                printf("\nWhen you red everything you can type RESTART or EXIT");
+                printf("\nWhen you have read everything you can type RESTART or EXIT");
                 printf("\ncommand :");
                 scanf("%s", givenCommand);
 
@@ -261,7 +240,7 @@ int main()
                 else if (strcmp(givenCommand, Exit) == 0)
                 {
                     printf("The program will stop in few seconds");
-                    usleep(5000);
+                    sleepFor(5000);
                     return 0;
                 }
 
@@ -274,7 +253,7 @@ int main()
             else
             {
                 printf("Unknown error detected during the ranking file opening, the program will restart automatically in few seconds\n");
-                usleep(5000);
+                sleepFor(5000);
             }
         }
 
@@ -286,34 +265,14 @@ int main()
 
             while (loading < 10)
             {
-                printf("|");
-                usleep(100);
-                printf("\b");
-                printf("/");
-                usleep(100);
-                printf("\b");
-                printf("-");
-                usleep(100);
-                printf("\b");
-                printf("|");
-                usleep(100);
-                printf("\b");
-                printf("/");
-                usleep(100);
-                printf("\b");
-                printf("-");
-                usleep(100);
-                printf("\b");
-                printf("|");
-                usleep(100);
-                printf("\b");
+                showLoad();
                 loading ++;
             }
 
             printf("\b");
 
             printf("\nComponents are ready to use\nVerizon is trying to hack your servers but you knew that was planned today!\nIt is your turn!");
-            while (inGame != 1)
+            while (inGame != false)
             {
                 printf("\ncommand : ");
                 scanf("%s", givenCommand);
@@ -322,27 +281,7 @@ int main()
 
                 while (loading < 2)
                 {
-                    printf("|");
-                    usleep(100);
-                    printf("\b");
-                    printf("/");
-                    usleep(100);
-                    printf("\b");
-                    printf("-");
-                    usleep(100);
-                    printf("\b");
-                    printf("|");
-                    usleep(100);
-                    printf("\b");
-                    printf("/");
-                    usleep(100);
-                    printf("\b");
-                    printf("-");
-                    usleep(100);
-                    printf("\b");
-                    printf("|");
-                    usleep(100);
-                    printf("\b");
+                    showLoad();
                     loading ++;
                 }
 
@@ -358,27 +297,7 @@ int main()
 
                     while (loading < 2)
                     {
-                        printf("|");
-                        usleep(100);
-                        printf("\b");
-                        printf("/");
-                        usleep(100);
-                        printf("\b");
-                        printf("-");
-                        usleep(100);
-                        printf("\b");
-                        printf("|");
-                        usleep(100);
-                        printf("\b");
-                        printf("/");
-                        usleep(100);
-                        printf("\b");
-                        printf("-");
-                        usleep(100);
-                        printf("\b");
-                        printf("|");
-                        usleep(100);
-                        printf("\b");
+                        showLoad();
                         loading ++;
                     }
 
@@ -396,7 +315,7 @@ int main()
                     {
                         printf("\nVerizon allocates a server to overheat your CPU");
                         DeadServers = rand() % 5;
-                        usleep(500);
+                        sleepFor(500);
 
                         if (DeadServers == 0)
                         {
@@ -412,28 +331,22 @@ int main()
                         else if (DeadServers == 2)
                         {
                             printf("\nVerizon kills 2 of your servers");
-                            AttsServers --;
-                            AttsServers --;
+                            AttsServers -= 2;
                         }
 
                         else if (DeadServers == 3)
                         {
                             printf("\nVerizon kills 3 of your servers");
-                            AttsServers --;
-                            AttsServers --;
-                            AttsServers --;
+                            AttsServers -= 3;
                         }
 
                         else
                         {
                             printf("\nVerizon kills 4 of your servers");
-                            AttsServers --;
-                            AttsServers --;
-                            AttsServers --;
-                            AttsServers --;
+                            AttsServers -= 4;
                         }
 
-                        usleep(500);
+                        sleepFor(500);
 
                         ServerLose = rand() % 2;
 
@@ -462,7 +375,7 @@ int main()
                 {
                         printf("\nYou allocate a server to overheat their CPU");
                         DeadServers = rand() % 5;
-                        usleep(500);
+                        sleepFor(500);
 
                         if (DeadServers == 0)
                         {
@@ -478,28 +391,22 @@ int main()
                         else if (DeadServers == 2)
                         {
                             printf("\nYou kill 2 of their servers");
-                            VerizonServers --;
-                            VerizonServers --;
+                            VerizonServers -= 2;
                         }
 
                         else if (DeadServers == 3)
                         {
                             printf("\nYou kill 3 of their servers");
-                            VerizonServers --;
-                            VerizonServers --;
-                            VerizonServers --;
+                            VerizonServers -= 3;
                         }
 
                         else
                         {
                             printf("\nYou kill 4 of their servers");
-                            VerizonServers --;
-                            VerizonServers --;
-                            VerizonServers --;
-                            VerizonServers --;
+                            VerizonServers -= 4;
                         }
 
-                        usleep(500);
+                        sleepFor(500);
 
                         ServerLose = rand() % 2;
 
@@ -526,7 +433,7 @@ int main()
                     {
                         printf("\nVerizon allocates a server to overheat your CPU");
                         DeadServers = rand() % 5;
-                        usleep(500);
+                        sleepFor(500);
 
                         if (DeadServers == 0)
                         {
@@ -542,28 +449,22 @@ int main()
                         else if (DeadServers == 2)
                         {
                             printf("\nVerizon kills 2 of your servers");
-                            AttsServers --;
-                            AttsServers --;
+                            AttsServers -=2;
                         }
 
                         else if (DeadServers == 3)
                         {
                             printf("\nVerizon kills 3 of your servers");
-                            AttsServers --;
-                            AttsServers --;
-                            AttsServers --;
+                            AttsServers -=3;
                         }
 
                         else
                         {
                             printf("\nVerizon kills 4 of your servers");
-                            AttsServers --;
-                            AttsServers --;
-                            AttsServers --;
-                            AttsServers --;
+                            AttsServers -=4;
                         }
 
-                        usleep(500);
+                        sleepFor(500);
 
                         ServerLose = rand() % 2;
 
@@ -605,7 +506,7 @@ int main()
                     {
                         printf("\nVerizon allocates a server to overheat your CPU");
                         DeadServers = rand() % 5;
-                        usleep(500);
+                        sleepFor(500);
 
                         if (DeadServers == 0)
                         {
@@ -642,7 +543,7 @@ int main()
                             AttsServers --;
                         }
 
-                        usleep(500);
+                        sleepFor(500);
 
                         ServerLose = rand() % 2;
 
@@ -674,11 +575,11 @@ int main()
 
                 if (AttsServers <= 0)
                 {
-                    printf("\You lose");
+                    printf("\nYou lose");
                     printf("\nVerizon hits you and kept %d servers", VerizonServers);
                     AttsServers = 20;
                     VerizonServers = 20;
-                    inGame = 1;
+                    inGame = false;
                 }
                 else if (VerizonServers <= 0)
                 {
@@ -687,48 +588,24 @@ int main()
                     printf("\nPlease enter your name : ");
                     scanf("%s", Name);
                     printf("%s's Bank Account : 2450$", Name);
-                    usleep(250);
+                    sleepFor(250);
                     printf("\b\b");
-                    usleep(250);
+                    sleepFor(250);
                     printf("\b");
-                    usleep(250);
+                    sleepFor(250);
                     printf("\b");
-                    usleep(250);
+                    sleepFor(250);
                     printf("\b");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
-                    printf("9");
-                    usleep(250);
+                    sleepFor(250);
+                    loading = 0;
+                    while(loading <= 15){
+                        printf("9");
+                        sleepFor(250);
+                        loading++;
+                    }
                     printf("$");
-                    usleep(500);
-                    printf("\nDear %s,\nto thanks you we send you a bit of money\nand we promote you Security Team CHIEF!\nCongratulations,\nATTS Inc CEO, Hugues KADI");
+                    sleepFor(500);
+                    printf("\nDear %s,\nTo thank you, we send you a bit of money\nand we promote you Security Team CHIEF!\nCongratulations,\nATTS Inc CEO, Hugues KADI", Name);
 
                     ranking = fopen("ranking.txt", "a");
                     fprintf(ranking, "\n%s hit Verizon and kept %d servers!", Name, AttsServers);
@@ -736,7 +613,7 @@ int main()
                     AttsServers = 20;
                     VerizonServers = 20;
 
-                    inGame = 1;
+                    inGame = false;
                 }
             }
 
@@ -751,7 +628,7 @@ int main()
                 else if (strcmp(givenCommand, Exit) == 0)
                 {
                     printf("The program will stop in few seconds");
-                    usleep(5000);
+                    sleepFor(5000);
                     return 0;
                 }
 
@@ -766,7 +643,7 @@ int main()
         else if (strcmp(givenCommand, Exit) == 0)
         {
             printf("The program will stop in few seconds");
-            usleep(5000);
+            sleepFor(5000);
             return 0;
         }
 
